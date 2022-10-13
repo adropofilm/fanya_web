@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+#task-list-container {
+    height: 600px;
+    width: 350px;
+    padding: 20px;
+    border-radius: 30px;
+    background-color:lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: black;
+    font-family: "Roboto", sans-serif;
+}
