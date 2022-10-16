@@ -5,13 +5,17 @@
     width: 350px;
     padding: 20px;
     border-radius: 30px;
-    background-color:lightgray;
+    background-color:#c58cfa;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 h1 {
-    color: black;
+    color: #100682;
     font-family: "Roboto", sans-serif;
+}
+
+#task-list {
+    margin-top: 20px;
 }
