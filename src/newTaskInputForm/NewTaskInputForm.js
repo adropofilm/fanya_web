@@ -1,35 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
+import { Button, TextField } from '@mui/material';
 import './styles.css';
-import { TextField } from "@mui/material";
 
 const NewTaskInputForm = () => {
     const [taskString, setTask] = useState("")
 
     let body = {
-        title: taskString
+        title: taskString,
+        status: "open"
     };
 
-    const onFormSubmit = (taskString) => {
-        console.log(`TASK IS ${taskString}`)
+    const onFormSubmit = () => {
         const search = async () => {
-            const { data } = await axios.post("http://localhost:4000/tasks", {
-                body
-            })
+            await axios.post("http://localhost:4000/tasks", body)
         };
         search();
+        setTask("");
     }
 
     return (
-        <form onSubmit={(onFormSubmit}>
-            <input 
+        <>
+            <TextField 
+                id="standard-basic" 
+                label="Standard" 
+                variant="standard" 
                 onChange={(text) => {
                     setTask(text.target.value);
                 }}
                 type="text"
                 value={taskString}
-                required/>
-        </form>
+
+                required />
+            <Button onClick={onFormSubmit} variant="outlined">Outlined</Button>
+        </>
     )
 }
 

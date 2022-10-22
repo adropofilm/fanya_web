@@ -12,7 +12,7 @@ const App = () => {
           setTasks(data.data);
       };
       search();
-  }, [])
+  })
 
   return (
     <div className="page-container">
