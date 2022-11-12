@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import NewTaskInputForm from '../newTaskInputForm/NewTaskInputForm';
-import TaskItem from '../taskItem/TaskItem';
+import NewTaskInputForm from '../newTaskInputForm';
+import TaskItem from '../taskItem';
 import styles from './styles.module.css'
 
 const TaskListContainer = () => {
@@ -20,7 +20,7 @@ const TaskListContainer = () => {
     const taskList = taskItems?.map((task) => {
         if(task.status === "open") {
             return (
-                <TaskItem {...task} />
+                <TaskItem {...task} key={task.id}/>
             );
         } else { 
             return null; 

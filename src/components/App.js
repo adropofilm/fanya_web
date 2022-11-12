@@ -1,5 +1,5 @@
 import React from "react";
-import TaskListContainer from './taskListContainer/TaskListContainer';
+import TaskListContainer from './taskListContainer';
 import './App.css'
 
 const App = () => {
