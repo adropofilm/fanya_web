@@ -7,9 +7,11 @@
 }
 
 #new-task-input {
-    background-color: #bbf0f2;
-    width: 85%;
-    height: 30px;
+    background-color: inherit;
+    width: 100%;
+    border: 2px solid blue;
+    height: 40px;
+    padding: 0 10px 0 10px;
     border-radius: 5px;
 }
 
