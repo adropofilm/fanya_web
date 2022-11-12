@@ -1,10 +1,10 @@
 import React from "react";
-import './styles.css';
+import styles from './styles.module.css';
 
 const TaskItem = ({id, status, title}) => {
 
     return (
-        <div key={id} className="task-item">
+        <div key={id} className={styles["task-item"]}>
             <p>{title}</p>
         </div>
     )

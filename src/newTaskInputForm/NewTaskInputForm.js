@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import './styles.css';
+import styles from './styles.module.css';
 
 const NewTaskInputForm = ({getAllTasks}) => {
     const [taskString, setTask] = useState("")
@@ -22,9 +22,9 @@ const NewTaskInputForm = ({getAllTasks}) => {
 
     return (
 
-        <form id="new-task-input-form" className="flex-column-center" onSubmit={onFormSubmit}>
+        <form id={styles["new-task-input-form"]} className="flex-column-center" onSubmit={onFormSubmit}>
             <input 
-                id="new-task-input" 
+                id={styles["new-task-input"]}
                 placeholder="Type the name of your task..."
                 onChange={(text) => {
                     setTask(text.target.value);
@@ -34,7 +34,7 @@ const NewTaskInputForm = ({getAllTasks}) => {
 
                 required />
 
-            <button id="new-task-btn" type="submit">create task</button>
+            <button id={styles["new-task-btn"]} type="submit">create task</button>
         </form>
     )
 }
