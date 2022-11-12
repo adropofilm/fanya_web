@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { Button, TextField } from '@mui/material';
 import './styles.css';
 
 const NewTaskInputForm = ({getAllTasks}) => {
@@ -11,7 +10,8 @@ const NewTaskInputForm = ({getAllTasks}) => {
         status: "open"
     };
 
-    const onFormSubmit = () => {
+    const onFormSubmit = (event) => {
+        event.preventDefault();
         const createNewTask = async () => {
             await axios.post("http://localhost:4000/tasks", body)
             getAllTasks();
@@ -21,11 +21,11 @@ const NewTaskInputForm = ({getAllTasks}) => {
     }
 
     return (
-        <>
-            <TextField 
-                id="standard-basic" 
-                label="Standard" 
-                variant="standard" 
+
+        <form id="new-task-input-form" className="flex-column-center" onSubmit={onFormSubmit}>
+            <input 
+                id="new-task-input" 
+                placeholder="Type the name of your task..."
                 onChange={(text) => {
                     setTask(text.target.value);
                 }}
@@ -33,8 +33,9 @@ const NewTaskInputForm = ({getAllTasks}) => {
                 value={taskString}
 
                 required />
-            <Button onClick={onFormSubmit} variant="outlined">Outlined</Button>
-        </>
+
+            <button id="new-task-btn" type="submit">create task</button>
+        </form>
     )
 }
 

@@ -1,3 +1,18 @@
 #filled-basic {
     width: 275px;
 }
+
+#new-task-btn {
+    display: none;
+}
+
+#new-task-input {
+    background-color: #bbf0f2;
+    width: 85%;
+    height: 30px;
+    border-radius: 5px;
+}
+
+#new-task-input-form {
+    width: 85%;
+}
