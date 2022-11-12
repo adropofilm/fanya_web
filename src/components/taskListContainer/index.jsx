@@ -20,7 +20,7 @@ const TaskListContainer = () => {
     const taskList = taskItems?.map((task) => {
         if(task.status === "open") {
             return (
-                <TaskItem {...task} key={task.id}/>
+                <TaskItem {...task} key={task.id} getAllTasks={getAllTasks}/>
             );
         } else { 
             return null; 

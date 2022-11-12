@@ -31,7 +31,6 @@ const NewTaskInputForm = ({getAllTasks}) => {
                 }}
                 type="text"
                 value={taskString}
-
                 required />
 
             <button id={styles["new-task-btn"]} type="submit">create task</button>
