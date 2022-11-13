@@ -1,15 +1,17 @@
 import React from "react";
 import axios from 'axios';
 import styles from './styles.module.css';
-//{id, status, title}
+
 const TaskItem = ({id, status, title, getAllTasks}) => {
     let taskBody = {
         status: "closed",
         id: id
     };
             
-    const markTaskCompleted = () => {
-        console.log("New task created!")
+    const markTaskCompleted = event => {
+        //event.stopPropagation()
+
+        console.log("here")
 
         const updateTask = async () => {
             await axios.put(`http://localhost:4000/tasks/${id}`, {task: taskBody})
@@ -19,11 +21,12 @@ const TaskItem = ({id, status, title, getAllTasks}) => {
     }
 
     return (
-        <label className={styles["container"]}>
-            <input type="checkbox" onClick={markTaskCompleted} />
-            <span className={styles["checkmark"]}></span>
-            <span>{title}</span>
-        </label>
+        <div className={styles["container"]}>
+            <input className="checkbox-input" role="checkbox" aria-checked="false" />
+            <span className={styles["checkmark"]} onClick={markTaskCompleted}></span>
+            <label>{title}</label>
+            <span className={`material-symbols-outlined ${styles["delete-icon"]}`}>delete</span>
+        </div>
     )
 }
 
