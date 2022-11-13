@@ -33,3 +33,7 @@
   .delete-icon {
     margin-left: auto;
   }
+
+  .delete-icon:hover {
+    cursor: pointer;
+  }

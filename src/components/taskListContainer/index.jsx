@@ -14,7 +14,7 @@ const TaskListContainer = () => {
 
     const getAllTasks = async () => {
       const { data } = await axios.get("http://localhost:4000/tasks")
-      setTasks(data.tasks);
+      setTasks(data.data);
     };
 
     const taskList = taskItems?.map((task) => {
