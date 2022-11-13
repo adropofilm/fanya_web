@@ -10,7 +10,7 @@ const TaskItem = ({id, status, title, getAllTasks}) => {
             
     const markTaskCompleted = event => {
         const updateTask = async () => {
-            await axios.put(`http://localhost:4000/tasks/${id}`, {task: taskBody})
+            await axios.put(`${process.env.REACT_APP_API_HOST}/tasks/${id}`, {task: taskBody})
             getAllTasks();
         };
         updateTask();
@@ -18,7 +18,7 @@ const TaskItem = ({id, status, title, getAllTasks}) => {
 
     const markTaskDeleted = event => {
         const deleteTask = async () => {
-            await axios.delete(`http://localhost:4000/tasks/${id}`)
+            await axios.delete(`${process.env.REACT_APP_API_HOST}/tasks/${id}`)
             getAllTasks();
         };
         deleteTask();
