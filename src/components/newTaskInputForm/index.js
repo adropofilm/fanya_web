@@ -13,7 +13,7 @@ const NewTaskInputForm = ({getAllTasks}) => {
     const onFormSubmit = (event) => {
         event.preventDefault();
         const createNewTask = async () => {
-            await axios.post("http://localhost:4000/tasks", body)
+            await axios.post(`${process.env.REACT_APP_API_HOST}/tasks`, body)
             getAllTasks();
         };
         createNewTask();
