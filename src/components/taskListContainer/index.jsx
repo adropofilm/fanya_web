@@ -3,6 +3,7 @@ import axios from "axios";
 import NewTaskInputForm from '../newTaskInputForm';
 import TaskItem from '../taskItem';
 import styles from './styles.module.css'
+import { getAllTasksFromApi } from "./api"
 
 const TaskListContainer = () => {
     const [tasks, setTasks] = useState([]);
@@ -13,8 +14,11 @@ const TaskListContainer = () => {
       }, [])
 
     const getAllTasks = async () => {
-      const { data } = await axios.get(`${process.env.REACT_APP_API_HOST}/tasks`)
-      setTasks(data.data);
+      getAllTasksFromApi()
+        .then(data => {
+            setTasks(data.data)
+        })
+        .catch(error => console.log(`Error occured ${error}`))
     };
 
     const taskList = taskItems?.map((task) => {
