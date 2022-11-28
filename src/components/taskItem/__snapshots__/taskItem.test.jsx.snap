@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="container"
+>
+  <input
+    aria-checked="false"
+    className="checkbox-input"
+    role="checkbox"
+  />
+  <span
+    className="checkmark"
+    onClick={[Function]}
+  />
+  <label>
+    clean the garage
+  </label>
+  <span
+    className="material-symbols-outlined delete-icon"
+    onClick={[Function]}
+  >
+    delete
+  </span>
+</div>
+`;

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<form
+  className="flex-column-center"
+  id="new-task-input-form"
+  onSubmit={[Function]}
+>
+  <input
+    id="new-task-input"
+    onChange={[Function]}
+    placeholder="Type the name of your task..."
+    required={true}
+    type="text"
+    value=""
+  />
+  <button
+    id="new-task-btn"
+    type="submit"
+  >
+    create task
+  </button>
+</form>
+`;
