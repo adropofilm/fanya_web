@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import axios from 'axios';
 import styles from './styles.module.css';
 
-const NewTaskInputForm = ({getAllTasks}) => {
+interface Props {
+    getAllTasks: () => Promise<void>;
+}
+
+const NewTaskInputForm = ({getAllTasks}:Props) => {
     const [taskString, setTask] = useState("")
 
-    let body = {
+    const body = {
         title: taskString,
         status: "open"
     };

@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
 import NewTaskInputForm from '../newTaskInputForm';
 import TaskItem from '../taskItem';
-import styles from './styles.module.css'
-import { getAllTasksFromApi } from "./api"
+import styles from './styles.module.css';
+import { getAllTasksFromApi } from "./api";
+
+
+// create types & interfaces outside component
+type Task = {
+    status: string,
+    title: string,
+    id: number
+}
 
 const TaskListContainer = () => {
-    const [tasks, setTasks] = useState([]);
+    // use type annotation to enforce type saftey 
+    const [tasks, setTasks] = useState<Task[]>([]);
     const taskItems = Array.from(tasks);
 
     useEffect(() => {
@@ -14,9 +22,14 @@ const TaskListContainer = () => {
       }, [])
 
     const getAllTasks = async () => {
+        try {
+            getAllTasksFromApi()
+        } catch (error) {
+            
+        }
       getAllTasksFromApi()
-        .then(data => {
-            setTasks(data.data)
+        .then(response => {
+            setTasks(response.data)
         })
         .catch(error => console.log(`Error occured ${error}`))
     };
