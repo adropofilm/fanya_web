@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import styles from './styles.module.css';
+import { tryApiRequestCatchError } from "../../utility/api";
 
 type NewTaskInputFormProps = {
     getAllTasks: () => Promise<void>;
@@ -14,12 +15,9 @@ const NewTaskInputForm = ({getAllTasks}:NewTaskInputFormProps) => {
         status: "open"
     };
 
-    const onFormSubmit = () => {
-        const createNewTask = async () => {
-            await axios.post(`${process.env.REACT_APP_API_HOST}/tasks`, body)
-            getAllTasks();
-        };
-        createNewTask();
+    const onFormSubmit = async (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+        await tryApiRequestCatchError(getAllTasks, axios.post, 201, `/`, body);
         setTask("");
     }
 

@@ -1,8 +1,9 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { sendRequestToApi } from '../../utility/api';
 import NewTaskInputForm from '../newTaskInputForm';
 import TaskItem from '../taskItem';
 import styles from './styles.module.css';
-import { getAllTasksFromApi } from "./api";
 
 type Task = {
     status: string,
@@ -20,15 +21,11 @@ const TaskListContainer = () => {
 
     const getAllTasks = async () => {
         try {
-            getAllTasksFromApi()
+            const {data} = await sendRequestToApi(axios.get, 200);
+            setTasks(data)
         } catch (error) {
-            
+            console.log(`Error occured ${error}`)
         }
-      getAllTasksFromApi()
-        .then(response => {
-            setTasks(response.data)
-        })
-        .catch(error => console.log(`Error occured ${error}`))
     };
 
     const taskList = taskItems?.map((task) => {

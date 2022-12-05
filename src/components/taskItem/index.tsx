@@ -1,6 +1,6 @@
-import React from "react";
 import axios from 'axios';
 import styles from './styles.module.css';
+import { tryApiRequestCatchError } from "../../utility/api";
 
 type TaskItemProps = {
     id: number;
@@ -15,20 +15,12 @@ const TaskItem = ({id, status, title, getAllTasks}: TaskItemProps) => {
         id: id
     };
             
-    const markTaskCompleted = () => {
-        const updateTask = async () => {
-            await axios.put(`${process.env.REACT_APP_API_HOST}/tasks/${id}`, {task: taskBody})
-            getAllTasks();
-        };
-        updateTask();
+    const markTaskCompleted = async () => {
+        await tryApiRequestCatchError(getAllTasks, axios.put, 200, `/${id}`, {task: taskBody});
     }
 
-    const markTaskDeleted = () => {
-        const deleteTask = async () => {
-            await axios.delete(`${process.env.REACT_APP_API_HOST}/tasks/${id}`)
-            getAllTasks();
-        };
-        deleteTask();
+    const markTaskDeleted = async () => {
+        await tryApiRequestCatchError(getAllTasks, axios.delete, 204, `/${id}`);
     }
 
     return (
