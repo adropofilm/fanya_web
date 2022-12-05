@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import axios from 'axios';
 import styles from './styles.module.css';
 
-interface Props {
+type NewTaskInputFormProps = {
     getAllTasks: () => Promise<void>;
 }
 
-const NewTaskInputForm = ({getAllTasks}:Props) => {
+const NewTaskInputForm = ({getAllTasks}:NewTaskInputFormProps) => {
     const [taskString, setTask] = useState("")
 
     const body = {
@@ -14,8 +14,7 @@ const NewTaskInputForm = ({getAllTasks}:Props) => {
         status: "open"
     };
 
-    const onFormSubmit = (event) => {
-        event.preventDefault();
+    const onFormSubmit = () => {
         const createNewTask = async () => {
             await axios.post(`${process.env.REACT_APP_API_HOST}/tasks`, body)
             getAllTasks();

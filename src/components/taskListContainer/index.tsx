@@ -4,8 +4,6 @@ import TaskItem from '../taskItem';
 import styles from './styles.module.css';
 import { getAllTasksFromApi } from "./api";
 
-
-// create types & interfaces outside component
 type Task = {
     status: string,
     title: string,
@@ -13,7 +11,6 @@ type Task = {
 }
 
 const TaskListContainer = () => {
-    // use type annotation to enforce type saftey 
     const [tasks, setTasks] = useState<Task[]>([]);
     const taskItems = Array.from(tasks);
 

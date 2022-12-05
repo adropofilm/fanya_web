@@ -2,13 +2,20 @@ import React from "react";
 import axios from 'axios';
 import styles from './styles.module.css';
 
-const TaskItem = ({id, status, title, getAllTasks}) => {
+type TaskItemProps = {
+    id: number;
+    title: string;
+    status: string;
+    getAllTasks: () => Promise<void>;
+}
+
+const TaskItem = ({id, status, title, getAllTasks}: TaskItemProps) => {
     let taskBody = {
         status: "closed",
         id: id
     };
             
-    const markTaskCompleted = event => {
+    const markTaskCompleted = () => {
         const updateTask = async () => {
             await axios.put(`${process.env.REACT_APP_API_HOST}/tasks/${id}`, {task: taskBody})
             getAllTasks();
@@ -16,7 +23,7 @@ const TaskItem = ({id, status, title, getAllTasks}) => {
         updateTask();
     }
 
-    const markTaskDeleted = event => {
+    const markTaskDeleted = () => {
         const deleteTask = async () => {
             await axios.delete(`${process.env.REACT_APP_API_HOST}/tasks/${id}`)
             getAllTasks();
