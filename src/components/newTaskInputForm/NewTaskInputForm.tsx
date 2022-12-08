@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import styles from './styles.module.css';
+import styles from './NewTaskInputForm.module.css';
 import { tryApiRequestCatchError } from "../../utility/api";
 
 type NewTaskInputFormProps = {
     getAllTasks: () => Promise<void>;
 }
 
-const NewTaskInputForm = ({getAllTasks}:NewTaskInputFormProps) => {
+export const NewTaskInputForm = ({getAllTasks}:NewTaskInputFormProps) => {
     const [taskString, setTask] = useState("")
 
     const body = {
@@ -38,5 +38,3 @@ const NewTaskInputForm = ({getAllTasks}:NewTaskInputFormProps) => {
         </form>
     )
 }
-
-export default NewTaskInputForm;

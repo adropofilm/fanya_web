@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { sendRequestToApi } from '../../utility/api';
-import NewTaskInputForm from '../newTaskInputForm';
-import TaskItem from '../taskItem';
-import styles from './styles.module.css';
+import { NewTaskInputForm } from '../newTaskInputForm/NewTaskInputForm';
+import { TaskItem } from '../taskItem/TaskItem';
+import styles from './TaskListContainer.module.css';
 
 type Task = {
     status: string,
@@ -11,7 +11,7 @@ type Task = {
     id: number
 }
 
-const TaskListContainer = () => {
+export const TaskListContainer = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const taskItems = Array.from(tasks);
 
@@ -48,5 +48,3 @@ const TaskListContainer = () => {
         </div>
     )
 }
-
-export default TaskListContainer;

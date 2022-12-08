@@ -1,5 +1,5 @@
 import axios from 'axios';
-import styles from './styles.module.css';
+import styles from './TaskItem.module.css';
 import { tryApiRequestCatchError } from "../../utility/api";
 
 type TaskItemProps = {
@@ -9,7 +9,7 @@ type TaskItemProps = {
     getAllTasks: () => Promise<void>;
 }
 
-const TaskItem = ({id, status, title, getAllTasks}: TaskItemProps) => {
+export const TaskItem = ({id, status, title, getAllTasks}: TaskItemProps) => {
     let taskBody = {
         status: "closed",
         id: id
@@ -32,5 +32,3 @@ const TaskItem = ({id, status, title, getAllTasks}: TaskItemProps) => {
         </div>
     )
 }
-
-export default TaskItem;

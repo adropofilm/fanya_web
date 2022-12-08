@@ -1,9 +1,9 @@
 import renderer from "react-test-renderer";
-import NewTaskInputForm from ".";
+import { TaskItem } from "./TaskItem";
 
 it("renders correctly", ()=> {
     const tree = renderer   
-        .create(<NewTaskInputForm />)
+        .create(<TaskItem id={1} status="open" title="clean the garage" />)
         .toJSON();
     expect(tree).toMatchSnapshot();
 })
