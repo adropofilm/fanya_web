@@ -1,4 +1,3 @@
-import React from "react";
 import { TaskListContainer } from "../taskListContainer/TaskListContainer";
 import "./App.css";
 

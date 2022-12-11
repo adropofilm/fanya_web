@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { sendRequestToApi } from "../../utility/api";
 import { NewTaskInputForm } from "../newTaskInputForm/NewTaskInputForm";
 import { TaskItem } from "../taskItem/TaskItem";

@@ -9,10 +9,10 @@ type TaskItemProps = {
   getAllTasks: () => Promise<void>;
 };
 
-export const TaskItem = ({ id, status, title, getAllTasks }: TaskItemProps) => {
-  let taskBody = {
+export const TaskItem = ({ id, title, getAllTasks }: TaskItemProps) => {
+  const taskBody = {
     status: "closed",
-    id: id,
+    id,
   };
 
   const markTaskCompleted = async () => {
