@@ -2,10 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import styles from "./NewTaskInputForm.module.css";
 import { tryApiRequestCatchError } from "../../utility/api";
-
-type NewTaskInputFormProps = {
-  getAllTasks: () => Promise<void>;
-};
+import { NewTaskInputFormProps } from "../../types/Task.types";
 
 export const NewTaskInputForm = ({
   getAllTasks,
@@ -19,7 +16,7 @@ export const NewTaskInputForm = ({
 
   const onFormSubmit = async (event: {
     preventDefault: () => void;
-  }): Promise<void> => {
+  }): Promise<void | never> => {
     event.preventDefault();
     await tryApiRequestCatchError(getAllTasks, axios.post, 201, `/`, body);
     setTask("");

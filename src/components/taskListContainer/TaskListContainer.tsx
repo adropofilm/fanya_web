@@ -1,25 +1,20 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { TaskBody } from "../../types/Task.types";
 import { sendRequestToApi } from "../../utility/api";
 import { NewTaskInputForm } from "../newTaskInputForm/NewTaskInputForm";
 import { TaskItem } from "../taskItem/TaskItem";
 import styles from "./TaskListContainer.module.css";
 
-type Task = {
-  status: string;
-  title: string;
-  id: number;
-};
-
-export const TaskListContainer = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+export const TaskListContainer = (): JSX.Element => {
+  const [tasks, setTasks] = useState<TaskBody[]>([]);
   const taskItems = Array.from(tasks);
 
   useEffect(() => {
     getAllTasks();
   }, []);
 
-  const getAllTasks = async () => {
+  const getAllTasks = async (): Promise<void | never> => {
     try {
       const { data } = await sendRequestToApi(axios.get, 200);
       setTasks(data);

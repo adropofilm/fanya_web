@@ -1,27 +1,25 @@
 import axios from "axios";
 import styles from "./TaskItem.module.css";
 import { tryApiRequestCatchError } from "../../utility/api";
+import { TaskItemProps } from "../../types/Task.types";
 
-type TaskItemProps = {
-  id: number;
-  title: string;
-  status: string;
-  getAllTasks: () => Promise<void>;
-};
-
-export const TaskItem = ({ id, title, getAllTasks }: TaskItemProps) => {
+export const TaskItem = ({
+  id,
+  title,
+  getAllTasks,
+}: TaskItemProps): JSX.Element => {
   const taskBody = {
     status: "closed",
     id,
   };
 
-  const markTaskCompleted = async () => {
+  const markTaskCompleted = async (): Promise<void | never> => {
     await tryApiRequestCatchError(getAllTasks, axios.put, 200, `/${id}`, {
       task: taskBody,
     });
   };
 
-  const markTaskDeleted = async () => {
+  const markTaskDeleted = async (): Promise<void | never> => {
     await tryApiRequestCatchError(getAllTasks, axios.delete, 204, `/${id}`);
   };
 

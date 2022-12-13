@@ -1,9 +1,4 @@
-type Task = {
-  task: {
-    status: string;
-    id: number;
-  };
-};
+import { Task } from "../types/Task.types";
 
 /* eslint-disable */
 export const sendRequestToApi = async (
