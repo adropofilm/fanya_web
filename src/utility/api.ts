@@ -5,6 +5,7 @@ type Task = {
   };
 };
 
+/* eslint-disable */
 export const sendRequestToApi = async (
   axiosRequest: any,
   expectedStatus: number,

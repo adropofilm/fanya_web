@@ -7,7 +7,9 @@ type NewTaskInputFormProps = {
   getAllTasks: () => Promise<void>;
 };
 
-export const NewTaskInputForm = ({ getAllTasks }: NewTaskInputFormProps) => {
+export const NewTaskInputForm = ({
+  getAllTasks,
+}: NewTaskInputFormProps): JSX.Element => {
   const [taskString, setTask] = useState("");
 
   const body = {
@@ -15,7 +17,9 @@ export const NewTaskInputForm = ({ getAllTasks }: NewTaskInputFormProps) => {
     status: "open",
   };
 
-  const onFormSubmit = async (event: { preventDefault: () => void }) => {
+  const onFormSubmit = async (event: {
+    preventDefault: () => void;
+  }): Promise<void> => {
     event.preventDefault();
     await tryApiRequestCatchError(getAllTasks, axios.post, 201, `/`, body);
     setTask("");
@@ -29,7 +33,7 @@ export const NewTaskInputForm = ({ getAllTasks }: NewTaskInputFormProps) => {
       <input
         id={styles["new-task-input"]}
         placeholder="Type the name of your task..."
-        onChange={(text) => {
+        onChange={(text): void => {
           setTask(text.target.value);
         }}
         type="text"
