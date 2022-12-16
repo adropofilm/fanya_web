@@ -8,10 +8,10 @@ export type Props = {
 };
 
 export const NewTaskInputForm = ({ setTasks }: Props): JSX.Element => {
-  const [taskString, setTask] = useState("");
+  const [taskTitle, setTaskTitle] = useState("");
 
   const task = {
-    title: taskString,
+    title: taskTitle,
     status: "open",
   };
 
@@ -20,7 +20,7 @@ export const NewTaskInputForm = ({ setTasks }: Props): JSX.Element => {
   }): Promise<void> => {
     event.preventDefault();
     const newTask = await addTask(task);
-    setTask("");
+    setTaskTitle("");
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
@@ -33,10 +33,10 @@ export const NewTaskInputForm = ({ setTasks }: Props): JSX.Element => {
         id={styles["new-task-input"]}
         placeholder="Type the name of your task..."
         onChange={(text): void => {
-          setTask(text.target.value);
+          setTaskTitle(text.target.value);
         }}
         type="text"
-        value={taskString}
+        value={taskTitle}
         required
       />
 
