@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
 import { TaskItem } from "./TaskItem";
 
-const getAllTasks = jest.fn();
+const setTasks = jest.fn();
 
 it("renders correctly", () => {
   const tree = renderer
@@ -10,7 +10,7 @@ it("renders correctly", () => {
         id={1}
         status="open"
         title="clean the garage"
-        getAllTasks={getAllTasks}
+        setTasks={setTasks}
       />
     )
     .toJSON();

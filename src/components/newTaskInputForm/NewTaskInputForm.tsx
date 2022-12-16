@@ -1,25 +1,27 @@
-import { useState } from "react";
-import axios from "axios";
+import { Dispatch, SetStateAction, useState } from "react";
 import styles from "./NewTaskInputForm.module.css";
-import { tryApiRequestCatchError } from "../../utility/api";
-import { NewTaskInputFormProps } from "../../types/Task.types";
+import { addTask } from "../../utility/api";
+import { Task } from "../../types/Task.types";
 
-export const NewTaskInputForm = ({
-  getAllTasks,
-}: NewTaskInputFormProps): JSX.Element => {
+export type Props = {
+  setTasks: Dispatch<SetStateAction<Task[]>>;
+};
+
+export const NewTaskInputForm = ({ setTasks }: Props): JSX.Element => {
   const [taskString, setTask] = useState("");
 
-  const body = {
+  const task = {
     title: taskString,
     status: "open",
   };
 
   const onFormSubmit = async (event: {
     preventDefault: () => void;
-  }): Promise<void | never> => {
+  }): Promise<void> => {
     event.preventDefault();
-    await tryApiRequestCatchError(getAllTasks, axios.post, 201, `/`, body);
+    const newTask = await addTask(task);
     setTask("");
+    setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
   return (

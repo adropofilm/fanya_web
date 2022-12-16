@@ -1,32 +1,29 @@
+import axios from "axios";
 import { Task } from "../types/Task.types";
 
-/* eslint-disable */
-export const sendRequestToApi = async (
-  axiosRequest: any,
-  expectedStatus: number,
-  url = "",
-  body: Task | null = null
-) => {
-  return await axiosRequest(
-    `${process.env.REACT_APP_API_HOST}/tasks${url}`,
-    body
-  ).then((response: any) => {
-    if (response.status === expectedStatus) return response.data;
-    else throw new Error(`HTTP response: ${response.status}`);
-  });
+export const getTasks = async (): Promise<Task[]> => {
+  const response = await axios.get(`${process.env.REACT_APP_API_HOST}/tasks`);
+  return response.data.data;
 };
 
-export const tryApiRequestCatchError = async (
-  getAllTasks: () => Promise<void>,
-  axiosRequest: any,
-  expectedStatus: number,
-  url = "",
-  body: any = null
-) => {
-  try {
-    await sendRequestToApi(axiosRequest, expectedStatus, url, body);
-    getAllTasks();
-  } catch (error) {
-    console.log(`Error occured ${error}`);
-  }
+export const addTask = async (task: Task): Promise<Task> => {
+  const response = await axios.post(
+    `${process.env.REACT_APP_API_HOST}/tasks`,
+    task
+  );
+  return response.data.data;
 };
+
+export const deleteTask = async (taskId: number): Promise<void> => {
+  await axios.delete(`${process.env.REACT_APP_API_HOST}/tasks/${taskId}`);
+};
+
+export const updateTask = async (task: Task): Promise<void> => {
+  const response = await axios.put(
+    `${process.env.REACT_APP_API_HOST}/tasks/${task.id}`,
+    { task: task }
+  );
+  return response.data.data;
+};
+
+/* eslint-disable */

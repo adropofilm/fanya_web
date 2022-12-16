@@ -1,26 +1,28 @@
-import axios from "axios";
 import styles from "./TaskItem.module.css";
-import { tryApiRequestCatchError } from "../../utility/api";
-import { TaskItemProps } from "../../types/Task.types";
+import { Dispatch, SetStateAction } from "react";
+import { Task } from "../../types/Task.types";
+import { deleteTask, updateTask } from "../../utility/api";
 
-export const TaskItem = ({
-  id,
-  title,
-  getAllTasks,
-}: TaskItemProps): JSX.Element => {
-  const taskBody = {
-    status: "closed",
-    id,
-  };
+export type Props = Task & {
+  setTasks: Dispatch<SetStateAction<Task[]>>;
+};
 
+export const TaskItem = ({ id, title, setTasks }: Props): JSX.Element => {
   const markTaskCompleted = async (): Promise<void | never> => {
-    await tryApiRequestCatchError(getAllTasks, axios.put, 200, `/${id}`, {
-      task: taskBody,
+    const taskBody = {
+      status: "closed",
+      id: id,
+    };
+
+    updateTask(taskBody).then(() => {
+      setTasks((prevState) => prevState.filter((task) => task.id !== id));
     });
   };
 
-  const markTaskDeleted = async (): Promise<void | never> => {
-    await tryApiRequestCatchError(getAllTasks, axios.delete, 204, `/${id}`);
+  const markTaskDeleted = (): void => {
+    deleteTask(id as number).then(() =>
+      setTasks((prevState) => prevState.filter((task) => task.id !== id))
+    );
   };
 
   return (
