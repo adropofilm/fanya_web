@@ -1,5 +1,5 @@
 import styles from "./TaskItem.module.css";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 import { Task } from "../../types/Task.types";
 import { deleteTask, updateTask } from "../../utility/api";
 
@@ -7,7 +7,7 @@ export type Props = Task & {
   setTasks: Dispatch<SetStateAction<Task[]>>;
 };
 
-export const TaskItem = ({ id, title, setTasks }: Props): JSX.Element => {
+export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
   const markTaskCompleted = async (): Promise<void | never> => {
     const taskBody = {
       status: "closed",

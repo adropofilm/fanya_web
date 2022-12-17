@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactElement } from "react";
 import { Task } from "../../types/Task.types";
 import { getTasks } from "../../utility/api";
 import { NewTaskInputForm } from "../newTaskInputForm/NewTaskInputForm";
 import { TaskItem } from "../taskItem/TaskItem";
 import styles from "./TaskListContainer.module.css";
 
-export const TaskListContainer = (): JSX.Element => {
+export const TaskListContainer = (): ReactElement => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const taskItems = Array.from(tasks);
 

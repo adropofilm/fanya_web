@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import styles from "./NewTaskInputForm.module.css";
 import { addTask } from "../../utility/api";
 import { Task } from "../../types/Task.types";
@@ -7,7 +7,7 @@ export type Props = {
   setTasks: Dispatch<SetStateAction<Task[]>>;
 };
 
-export const NewTaskInputForm = ({ setTasks }: Props): JSX.Element => {
+export const NewTaskInputForm = ({ setTasks }: Props): ReactElement => {
   const [taskTitle, setTaskTitle] = useState("");
 
   const task = {
