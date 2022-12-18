@@ -7,7 +7,6 @@ import styles from "./TaskListContainer.module.css";
 
 export const TaskListContainer = (): ReactElement => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const taskItems = tasks;
 
   useEffect(() => {
     const fetchTasks = async (): Promise<void> => {
@@ -22,7 +21,7 @@ export const TaskListContainer = (): ReactElement => {
       <h1 id={styles["task-list-header"]}>Keep It Moving 💪🏽</h1>
       <NewTaskInputForm setTasks={setTasks} />
       <div id={styles["task-list"]} className="flex-column-center">
-        {taskItems.map(
+        {tasks.map(
           (task) =>
             task.status === "open" && (
               <TaskItem {...task} key={task.id} setTasks={setTasks} />
