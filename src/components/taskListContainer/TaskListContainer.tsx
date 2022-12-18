@@ -7,7 +7,7 @@ import styles from "./TaskListContainer.module.css";
 
 export const TaskListContainer = (): ReactElement => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const taskItems = Array.from(tasks);
+  const taskItems = tasks;
 
   useEffect(() => {
     const fetchTasks = async (): Promise<void> => {
@@ -17,19 +17,17 @@ export const TaskListContainer = (): ReactElement => {
     fetchTasks();
   }, []);
 
-  const taskList = taskItems?.map(
-    (task) =>
-      task.status === "open" && (
-        <TaskItem {...task} key={task.id} setTasks={setTasks} />
-      )
-  );
-
   return (
     <div id={styles["task-list-container"]} className="flex-column-center">
       <h1 id={styles["task-list-header"]}>Keep It Moving 💪🏽</h1>
       <NewTaskInputForm setTasks={setTasks} />
       <div id={styles["task-list"]} className="flex-column-center">
-        {taskList}
+        {taskItems.map(
+          (task) =>
+            task.status === "open" && (
+              <TaskItem {...task} key={task.id} setTasks={setTasks} />
+            )
+        )}
       </div>
     </div>
   );
