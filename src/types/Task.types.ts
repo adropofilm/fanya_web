@@ -1,5 +1,10 @@
 export type Task = {
-  status: string;
-  title?: string;
-  id?: number;
+  id: number;
+  title: string;
+  status: Status;
 };
+
+export enum Status {
+  OPEN = "open",
+  CLOSED = "closed",
+}
