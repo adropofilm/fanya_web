@@ -1,28 +1,34 @@
 import styles from "./TaskItem.module.css";
-import { Dispatch, ReactElement, SetStateAction } from "react";
-import { Task, Status } from "../../types/Task.types";
-import { deleteTask, updateTask } from "../../utility/api";
+import { ReactElement } from "react";
+import { Status, Task } from "../../types/Task.types";
+import { deleteTask, getTasks, updateTask } from "../../utility/api";
 
-export type Props = Task & {
-  setTasks: Dispatch<SetStateAction<Task[]>>;
+type Props = Task & {
+  setTasks: (tasks: ReadonlyArray<Task>) => void;
 };
 
 export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
-  const markTaskCompleted = async (): Promise<void | never> => {
-    const taskBody = {
+  const markTaskCompleted = async (): Promise<void> => {
+    const task = {
       status: Status.CLOSED,
-      id: id,
+      id,
     };
 
-    updateTask(taskBody).then(() => {
-      setTasks((prevState) => prevState.filter((task) => task.id !== id));
-    });
+    const response = await updateTask(task);
+
+    if (response) {
+      const tasks = await getTasks();
+      setTasks(tasks);
+    }
   };
 
-  const markTaskDeleted = (): void => {
-    deleteTask(id as number).then(() =>
-      setTasks((prevState) => prevState.filter((task) => task.id !== id))
-    );
+  const markTaskDeleted = async (): Promise<void> => {
+    const response = await deleteTask(id);
+
+    if (response) {
+      const tasks = await getTasks();
+      setTasks(tasks);
+    }
   };
 
   return (

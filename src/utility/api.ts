@@ -8,16 +8,21 @@ export const getTasks = async (): Promise<Task[]> => {
   return response.data;
 };
 
-export const addTask = async (task: Task): Promise<Task> => {
+export const addTask = async (
+  task: Pick<Task, "title" | "status">
+): Promise<Task> => {
   const response = await axios.post(baseURL, task);
   return response.data;
 };
 
-export const deleteTask = async (taskId: number): Promise<void> => {
-  await axios.delete(`${baseURL}/${taskId}`);
+export const deleteTask = async (id: number): Promise<Task> => {
+  const response = await axios.delete(`${baseURL}/${id}`);
+  return response.data;
 };
 
-export const updateTask = async (task: Task): Promise<void> => {
+export const updateTask = async (
+  task: Pick<Task, "id" | "status">
+): Promise<Task> => {
   const response = await axios.put(baseURL, task);
   return response.data;
 };
