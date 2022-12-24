@@ -1,7 +1,7 @@
 import { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import styles from "./NewTaskInputForm.module.css";
 import { addTask } from "../../utility/api";
-import { Task } from "../../types/Task.types";
+import { Status, Task } from "../../types/Task.types";
 
 export type Props = {
   setTasks: Dispatch<SetStateAction<Task[]>>;
@@ -12,16 +12,20 @@ export const NewTaskInputForm = ({ setTasks }: Props): ReactElement => {
 
   const task = {
     title: taskTitle,
-    status: "open",
+    status: Status.OPEN,
   };
 
   const onFormSubmit = async (event: {
     preventDefault: () => void;
   }): Promise<void> => {
     event.preventDefault();
-    const newTask = await addTask(task);
-    setTaskTitle("");
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    try {
+      const newTask = await addTask(task);
+      setTaskTitle("");
+      setTasks((prevTasks) => [...prevTasks, newTask]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

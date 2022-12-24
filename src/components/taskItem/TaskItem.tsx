@@ -8,21 +8,27 @@ export type Props = Task & {
 };
 
 export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
-  const markTaskCompleted = async (): Promise<void | never> => {
+  const markTaskCompleted = async (): Promise<void> => {
     const taskBody = {
       status: Status.CLOSED,
-      id: id,
+      id,
     };
 
-    updateTask(taskBody).then(() => {
+    try {
+      await updateTask(taskBody);
       setTasks((prevState) => prevState.filter((task) => task.id !== id));
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const markTaskDeleted = (): void => {
-    deleteTask(id as number).then(() =>
-      setTasks((prevState) => prevState.filter((task) => task.id !== id))
-    );
+  const markTaskDeleted = async (): Promise<void> => {
+    try {
+      await deleteTask(id as number);
+      setTasks((prevState) => prevState.filter((task) => task.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

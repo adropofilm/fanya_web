@@ -10,8 +10,12 @@ export const TaskListContainer = (): ReactElement => {
 
   useEffect(() => {
     const fetchTasks = async (): Promise<void> => {
-      const data = await getTasks();
-      setTasks(data);
+      try {
+        const data = await getTasks();
+        setTasks(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchTasks();
   }, []);
