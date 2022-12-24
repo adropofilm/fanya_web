@@ -1,12 +1,12 @@
 import { useState, useEffect, ReactElement } from "react";
-import { Task } from "../../types/Task.types";
+import { Status, Task } from "../../types/Task.types";
 import { getTasks } from "../../utility/api";
 import { NewTaskInputForm } from "../newTaskInputForm/NewTaskInputForm";
 import { TaskItem } from "../taskItem/TaskItem";
 import styles from "./TaskListContainer.module.css";
 
 export const TaskListContainer = (): ReactElement => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<ReadonlyArray<Task>>([]);
 
   useEffect(() => {
     const fetchTasks = async (): Promise<void> => {
@@ -27,7 +27,7 @@ export const TaskListContainer = (): ReactElement => {
       <div id={styles["task-list"]} className="flex-column-center">
         {tasks.map(
           (task) =>
-            task.status === "open" && (
+            task.status === Status.OPEN && (
               <TaskItem {...task} key={task.id} setTasks={setTasks} />
             )
         )}

@@ -1,10 +1,10 @@
 import styles from "./TaskItem.module.css";
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { ReactElement } from "react";
 import { Task, Status } from "../../types/Task.types";
-import { deleteTask, updateTask } from "../../utility/api";
+import { deleteTask, getTasks, updateTask } from "../../utility/api";
 
 export type Props = Task & {
-  setTasks: Dispatch<SetStateAction<Task[]>>;
+  setTasks: (tasks: ReadonlyArray<Task>) => void;
 };
 
 export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
@@ -15,8 +15,12 @@ export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
     };
 
     try {
-      await updateTask(taskBody);
-      setTasks((prevState) => prevState.filter((task) => task.id !== id));
+      const response = await updateTask(taskBody);
+
+      if (response) {
+        const tasks = await getTasks();
+        setTasks(tasks);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -24,8 +28,9 @@ export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
 
   const markTaskDeleted = async (): Promise<void> => {
     try {
-      await deleteTask(id as number);
-      setTasks((prevState) => prevState.filter((task) => task.id !== id));
+      await deleteTask(id);
+      const tasks = await getTasks();
+      setTasks(tasks);
     } catch (error) {
       console.error(error);
     }

@@ -1,17 +1,17 @@
-import { Dispatch, ReactElement, SetStateAction, useState } from "react";
+import { ReactElement, useState } from "react";
 import styles from "./NewTaskInputForm.module.css";
-import { addTask } from "../../utility/api";
+import { addTask, getTasks } from "../../utility/api";
 import { Status, Task } from "../../types/Task.types";
 
 export type Props = {
-  setTasks: Dispatch<SetStateAction<Task[]>>;
+  setTasks: (tasks: ReadonlyArray<Task>) => void;
 };
 
 export const NewTaskInputForm = ({ setTasks }: Props): ReactElement => {
-  const [taskTitle, setTaskTitle] = useState("");
+  const [title, setTitle] = useState("");
 
   const task = {
-    title: taskTitle,
+    title: title,
     status: Status.OPEN,
   };
 
@@ -20,9 +20,13 @@ export const NewTaskInputForm = ({ setTasks }: Props): ReactElement => {
   }): Promise<void> => {
     event.preventDefault();
     try {
-      const newTask = await addTask(task);
-      setTaskTitle("");
-      setTasks((prevTasks) => [...prevTasks, newTask]);
+      const response = await addTask(task);
+      setTitle("");
+
+      if (response) {
+        const tasks = await getTasks();
+        setTasks(tasks);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -37,10 +41,10 @@ export const NewTaskInputForm = ({ setTasks }: Props): ReactElement => {
         id={styles["new-task-input"]}
         placeholder="Type the name of your task..."
         onChange={(text): void => {
-          setTaskTitle(text.target.value);
+          setTitle(text.target.value);
         }}
         type="text"
-        value={taskTitle}
+        value={title}
         required
       />
 
