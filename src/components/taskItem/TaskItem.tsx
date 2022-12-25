@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import { Task, Status } from "../../types/Task.types";
 import { deleteTask, getTasks, updateTask } from "../../utility/api";
 
-export type Props = Task & {
+type Props = Task & {
   setTasks: (tasks: ReadonlyArray<Task>) => void;
 };
 

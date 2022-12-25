@@ -3,7 +3,7 @@ import styles from "./NewTaskInputForm.module.css";
 import { addTask, getTasks } from "../../utility/api";
 import { Status, Task } from "../../types/Task.types";
 
-export type Props = {
+type Props = {
   setTasks: (tasks: ReadonlyArray<Task>) => void;
 };
 
