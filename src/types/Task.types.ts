@@ -1,10 +1,25 @@
 export type Task = {
   id: number;
   title: string;
-  status: Status;
+  status: TaskStatus;
 };
 
-export enum Status {
+export enum TaskStatus {
   OPEN = "open",
   CLOSED = "closed",
+}
+
+export type TasksState = {
+  tasks: {
+    tasks: Task[];
+    status: RequestStatus;
+    error: string | null;
+  };
+};
+
+export enum RequestStatus {
+  IDLE = "idle",
+  LOADING = "loading",
+  SUCCEEDED = "succeeded",
+  FAILED = "failed",
 }
