@@ -1,32 +1,19 @@
 import { ReactElement, useState } from "react";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { createTask } from "../../store/features/tasksSlice";
 import styles from "./NewTaskInputForm.module.css";
-import { addTask, getTasks } from "../../utility/api";
-import { Status, Task } from "../../types/Task.types";
 
-type Props = {
-  setTasks: (tasks: ReadonlyArray<Task>) => void;
-};
-
-export const NewTaskInputForm = ({ setTasks }: Props): ReactElement => {
+export const NewTaskInputForm = (): ReactElement => {
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
-
-  const task = {
-    title: title,
-    status: Status.OPEN,
-  };
 
   const onFormSubmit = async (event: {
     preventDefault: () => void;
   }): Promise<void> => {
     event.preventDefault();
     try {
-      const response = await addTask(task);
+      dispatch(createTask(title));
       setTitle("");
-
-      if (response) {
-        const tasks = await getTasks();
-        setTasks(tasks);
-      }
     } catch (error) {
       console.error(error);
     }
