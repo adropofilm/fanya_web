@@ -10,11 +10,9 @@ export enum TaskStatus {
 }
 
 export type TasksState = {
-  tasks: {
-    tasks: Task[];
-    status: RequestStatus;
-    error: string | null;
-  };
+  tasksList: Task[];
+  status: RequestStatus;
+  error: string | null | undefined;
 };
 
 export enum RequestStatus {
