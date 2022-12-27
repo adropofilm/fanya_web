@@ -5,9 +5,13 @@ import {
   TasksState,
   TaskStatus,
 } from "../../types/Task.types";
-import { addTask, getTasks } from "../../utility/api";
+import {
+  addTaskQuery,
+  getTasksQuery,
+  deleteTaskQuery,
+  updateTaskQuery,
+} from "../../utility/api";
 import type { RootState } from "../store";
-import type { PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: TasksState = {
   tasksList: [] as Task[],
@@ -18,27 +22,7 @@ const initialState: TasksState = {
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {
-    tasksGot: (state, action: PayloadAction<Task[]>) => {
-      state.tasksList = action.payload;
-    },
-    taskAdded: (state, action: PayloadAction<Task>) => {
-      state.tasksList.push(action.payload);
-    },
-    taskRemoved: (state, action: PayloadAction<number>) => {
-      state.tasksList = state.tasksList.filter(
-        (task) => task.id !== action.payload
-      );
-    },
-    taskCompleted: (state, action: PayloadAction<number>) => {
-      state.tasksList = state.tasksList.map((task) => {
-        if (task.id === action.payload) {
-          return { ...task, status: TaskStatus.CLOSED };
-        }
-        return task;
-      });
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchTasks.pending, (state) => {
       state.status = RequestStatus.LOADING;
@@ -57,9 +41,38 @@ export const tasksSlice = createSlice({
     });
     builder.addCase(createTask.fulfilled, (state, action) => {
       state.status = RequestStatus.SUCCEEDED;
-      state.tasksList.push(action.payload);
+      state.tasksList.unshift(action.payload);
     });
     builder.addCase(createTask.rejected, (state, action) => {
+      state.status = RequestStatus.FAILED;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(completeTask.pending, (state) => {
+      state.status = RequestStatus.LOADING;
+    });
+    builder.addCase(completeTask.fulfilled, (state, action) => {
+      state.status = RequestStatus.SUCCEEDED;
+      const index = state.tasksList.findIndex(
+        (task) => task.id === action.payload.id
+      );
+      state.tasksList[index] = action.payload;
+    });
+    builder.addCase(completeTask.rejected, (state, action) => {
+      state.status = RequestStatus.FAILED;
+      state.error = action.error.message;
+    });
+
+    builder.addCase(deleteTask.pending, (state) => {
+      state.status = RequestStatus.LOADING;
+    });
+    builder.addCase(deleteTask.fulfilled, (state, action) => {
+      state.status = RequestStatus.SUCCEEDED;
+      state.tasksList = state.tasksList.filter(
+        (task) => task.id !== action.meta.arg
+      );
+    });
+    builder.addCase(deleteTask.rejected, (state, action) => {
       state.status = RequestStatus.FAILED;
       state.error = action.error.message;
     });
@@ -67,20 +80,32 @@ export const tasksSlice = createSlice({
 });
 
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
-  const response = await getTasks();
+  const response = await getTasksQuery();
   return response;
 });
 
 export const createTask = createAsyncThunk(
   "tasks/createTask",
   async (title: string) => {
-    const response = await addTask({ title, status: TaskStatus.OPEN });
+    const response = await addTaskQuery({ title, status: TaskStatus.OPEN });
     return response;
   }
 );
 
-export const { tasksGot, taskAdded, taskRemoved, taskCompleted } =
-  tasksSlice.actions;
+export const completeTask = createAsyncThunk(
+  "tasks/completeTask",
+  async (task: Pick<Task, "id" | "status">) => {
+    const response = await updateTaskQuery(task);
+    return response;
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  "tasks/deleteTask",
+  async (taskId: number) => {
+    await deleteTaskQuery(taskId);
+  }
+);
 
 export const selectTasks = (state: RootState): Task[] => state.tasks.tasksList;
 

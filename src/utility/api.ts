@@ -13,13 +13,13 @@ const assertStatusCode = (
   }
 };
 
-export const getTasks = async (): Promise<Task[]> => {
+export const getTasksQuery = async (): Promise<Task[]> => {
   const response = await axios.get(baseURL);
   assertStatusCode(200, response.status, "Could not get tasks");
   return response.data;
 };
 
-export const addTask = async (
+export const addTaskQuery = async (
   task: Pick<Task, "title" | "status">
 ): Promise<Task> => {
   const response = await axios.post(baseURL, task);
@@ -27,12 +27,12 @@ export const addTask = async (
   return response.data;
 };
 
-export const deleteTask = async (taskId: number): Promise<void> => {
+export const deleteTaskQuery = async (taskId: number): Promise<void> => {
   const response = await axios.delete(`${baseURL}/${taskId}`);
   assertStatusCode(204, response.status, "Could not delete task");
 };
 
-export const updateTask = async (
+export const updateTaskQuery = async (
   task: Pick<Task, "id" | "status">
 ): Promise<Task> => {
   const response = await axios.put(baseURL, task);

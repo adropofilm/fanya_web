@@ -1,26 +1,22 @@
 import styles from "./TaskItem.module.css";
 import { ReactElement } from "react";
-import { Task, Status } from "../../types/Task.types";
-import { deleteTask, getTasks, updateTask } from "../../utility/api";
+import { Task, TaskStatus } from "../../types/Task.types";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { completeTask, deleteTask } from "../../store/features/tasksSlice";
 
-type Props = Task & {
-  setTasks: (tasks: ReadonlyArray<Task>) => void;
-};
+type Props = Task;
 
-export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
+export const TaskItem = ({ id, title }: Props): ReactElement => {
+  const dispatch = useAppDispatch();
+
   const markTaskCompleted = async (): Promise<void> => {
-    const taskBody = {
-      status: Status.CLOSED,
+    const task = {
+      status: TaskStatus.CLOSED,
       id,
     };
 
     try {
-      const response = await updateTask(taskBody);
-
-      if (response) {
-        const tasks = await getTasks();
-        setTasks(tasks);
-      }
+      dispatch(completeTask(task));
     } catch (error) {
       console.error(error);
     }
@@ -28,9 +24,7 @@ export const TaskItem = ({ id, title, setTasks }: Props): ReactElement => {
 
   const markTaskDeleted = async (): Promise<void> => {
     try {
-      await deleteTask(id);
-      const tasks = await getTasks();
-      setTasks(tasks);
+      dispatch(deleteTask(id));
     } catch (error) {
       console.error(error);
     }
