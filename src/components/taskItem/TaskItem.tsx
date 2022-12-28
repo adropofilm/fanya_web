@@ -4,9 +4,7 @@ import { Task, TaskStatus } from "../../types/Task.types";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { completeTask, deleteTask } from "../../store/features/tasksSlice";
 
-type Props = Task;
-
-export const TaskItem = ({ id, title }: Props): ReactElement => {
+export const TaskItem = ({ id, title }: Task): ReactElement => {
   const dispatch = useAppDispatch();
 
   const markTaskCompleted = async (): Promise<void> => {
