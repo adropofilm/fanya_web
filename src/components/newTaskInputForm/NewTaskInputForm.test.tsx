@@ -1,11 +1,7 @@
 import renderer from "react-test-renderer";
 import { NewTaskInputForm } from "./NewTaskInputForm";
 
-const setTasks = jest.fn();
-
 it("renders correctly", () => {
-  const tree = renderer
-    .create(<NewTaskInputForm setTasks={setTasks} />)
-    .toJSON();
+  const tree = renderer.create(<NewTaskInputForm />).toJSON();
   expect(tree).toMatchSnapshot();
 });
