@@ -1,20 +1,25 @@
 import styles from "./TaskItem.module.css";
 import { ReactElement } from "react";
-import { Task, TaskStatus } from "../../types/Task.types";
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import { completeTask, deleteTask } from "../../store/features/tasksSlice";
+import { Task } from "../../types/Task.types";
+import {
+  useCompleteTaskMutation,
+  useDeleteTaskMutation,
+} from "../../store/features/apiSlice";
 
 export const TaskItem = ({ id, title }: Task): ReactElement => {
-  const dispatch = useAppDispatch();
+  const [completeTask, { isLoading: isLoadingTaskCompletion }] =
+    useCompleteTaskMutation();
+  const [deleteTask, { isLoading: isLoadingTaskDeletion }] =
+    useDeleteTaskMutation();
+
+  const canDelete = [title].every(Boolean) && !isLoadingTaskDeletion;
+  const canComplete = [title].every(Boolean) && !isLoadingTaskCompletion;
 
   const markTaskCompleted = async (): Promise<void> => {
-    const task = {
-      status: TaskStatus.CLOSED,
-      id,
-    };
-
     try {
-      dispatch(completeTask(task));
+      if (canComplete) {
+        await completeTask(id);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -22,7 +27,9 @@ export const TaskItem = ({ id, title }: Task): ReactElement => {
 
   const markTaskDeleted = async (): Promise<void> => {
     try {
-      dispatch(deleteTask(id));
+      if (canDelete) {
+        await deleteTask(id);
+      }
     } catch (error) {
       console.error(error);
     }
