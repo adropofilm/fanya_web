@@ -1,21 +1,24 @@
 import { ReactElement, useState } from "react";
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import { createTask } from "../../store/features/tasksSlice";
+import { useCreateTaskMutation } from "../../store/features/apiSlice";
 import styles from "./NewTaskInputForm.module.css";
 
 export const NewTaskInputForm = (): ReactElement => {
-  const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
+  const [addNewTask, { isLoading }] = useCreateTaskMutation();
+
+  const canSave = [title].every(Boolean) && !isLoading;
 
   const onFormSubmit = async (event: {
     preventDefault: () => void;
   }): Promise<void> => {
     event.preventDefault();
     try {
-      dispatch(createTask(title));
-      setTitle("");
+      if (canSave) {
+        await addNewTask(title);
+        setTitle("");
+      }
     } catch (error) {
-      console.error(error);
+      console.error(`Failed to save task: ${error}`);
     }
   };
 

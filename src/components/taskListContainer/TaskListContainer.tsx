@@ -1,30 +1,25 @@
-import { useEffect, ReactElement } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { selectTasks, fetchTasks } from "../../store/features/tasksSlice";
-import { TaskStatus, RequestStatus } from "../../types/Task.types";
+import { ReactElement } from "react";
 import { NewTaskInputForm } from "../newTaskInputForm/NewTaskInputForm";
 import { TaskItem } from "../taskItem/TaskItem";
 import styles from "./TaskListContainer.module.css";
+import { useGetTasksQuery } from "../../store/features/apiSlice";
+import { TaskStatus, Task } from "../../types/Task.types";
+
+type TaskContentTypes = ReactElement | Task[];
 
 export const TaskListContainer = (): ReactElement => {
-  const dispatch = useAppDispatch();
-  const tasks = useAppSelector(selectTasks);
-  const getTasksRequestStatus = useAppSelector((state) => state.tasks.status);
+  const { data: tasks, isLoading, isSuccess, isError } = useGetTasksQuery();
 
-  useEffect(() => {
-    try {
-      if (getTasksRequestStatus === RequestStatus.IDLE) {
-        dispatch(fetchTasks());
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [getTasksRequestStatus, dispatch]);
+  let taskContent: TaskContentTypes = [];
 
-  return (
-    <div id={styles["task-list-container"]} className="flex-column-center">
-      <h1 id={styles["task-list-header"]}>Keep It Moving 💪🏽</h1>
-      <NewTaskInputForm />
+  if (isLoading) {
+    taskContent = (
+      <div>
+        <span>Loading...</span>
+      </div>
+    );
+  } else if (isSuccess) {
+    taskContent = (
       <div id={styles["task-list"]} className="flex-column-center">
         {tasks.map(
           (task) =>
@@ -33,6 +28,18 @@ export const TaskListContainer = (): ReactElement => {
             )
         )}
       </div>
+    );
+  } else if (isError) {
+    taskContent = (
+      <div>A problem occured. We were unable to get the tasks.</div>
+    );
+  }
+
+  return (
+    <div id={styles["task-list-container"]} className="flex-column-center">
+      <h1 id={styles["task-list-header"]}>Keep It Moving 💪🏽</h1>
+      <NewTaskInputForm />
+      <>{taskContent}</>
     </div>
   );
 };
