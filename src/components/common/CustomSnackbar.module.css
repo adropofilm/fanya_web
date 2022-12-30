@@ -1,0 +1,18 @@
+.snackbar {
+  background-color: blue;
+  word-wrap: break-word;
+  height: 50px;
+  position: fixed;
+  top: 10px;
+  padding: 0 10px;
+  max-width: 320px;
+  text-align: center;
+  color: #63d0b3;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.snackbar-btn {
+  margin-right: 10px;
+}
