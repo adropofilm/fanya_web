@@ -1,10 +1,17 @@
 import { ReactElement, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { useCreateTaskMutation } from "../../store/features/apiSlice";
+import {
+  selectIsSnackbarOpen,
+  openSnackbar,
+} from "../../store/features/snackbarSlice";
 import styles from "./NewTaskInputForm.module.css";
 
 export const NewTaskInputForm = (): ReactElement => {
   const [title, setTitle] = useState("");
   const [addNewTask, { isLoading }] = useCreateTaskMutation();
+  const dispatch = useAppDispatch();
+  const isSnackbarOpen = useAppSelector(selectIsSnackbarOpen);
 
   const canSave = [title].every(Boolean) && !isLoading;
 
@@ -18,7 +25,8 @@ export const NewTaskInputForm = (): ReactElement => {
         setTitle("");
       }
     } catch (error) {
-      console.error(`Failed to save task: ${error}`);
+      !isSnackbarOpen &&
+        dispatch(openSnackbar("An error occurred while deleting task."));
     }
   };
 

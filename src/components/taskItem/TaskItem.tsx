@@ -5,8 +5,16 @@ import {
   useCompleteTaskMutation,
   useDeleteTaskMutation,
 } from "../../store/features/apiSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import {
+  openSnackbar,
+  selectIsSnackbarOpen,
+} from "../../store/features/snackbarSlice";
 
 export const TaskItem = ({ id, title }: Task): ReactElement => {
+  const dispatch = useAppDispatch();
+  const isSnackbarOpen = useAppSelector(selectIsSnackbarOpen);
+
   const [completeTask, { isLoading: isLoadingTaskCompletion }] =
     useCompleteTaskMutation();
   const [deleteTask, { isLoading: isLoadingTaskDeletion }] =
@@ -21,7 +29,8 @@ export const TaskItem = ({ id, title }: Task): ReactElement => {
         await completeTask(id);
       }
     } catch (error) {
-      console.error(error);
+      !isSnackbarOpen &&
+        dispatch(openSnackbar("An error occurred while completing task."));
     }
   };
 
@@ -31,7 +40,8 @@ export const TaskItem = ({ id, title }: Task): ReactElement => {
         await deleteTask(id);
       }
     } catch (error) {
-      console.error(error);
+      !isSnackbarOpen &&
+        dispatch(openSnackbar("An error occurred while deleting task."));
     }
   };
 

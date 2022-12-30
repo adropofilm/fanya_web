@@ -4,20 +4,23 @@ import { TaskItem } from "../taskItem/TaskItem";
 import styles from "./TaskListContainer.module.css";
 import { useGetTasksQuery } from "../../store/features/apiSlice";
 import { TaskStatus, Task } from "../../types/Task.types";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import {
+  openSnackbar,
+  selectIsSnackbarOpen,
+} from "../../store/features/snackbarSlice";
 
 type TaskContentTypes = ReactElement | Task[];
 
 export const TaskListContainer = (): ReactElement => {
   const { data: tasks, isLoading, isSuccess, isError } = useGetTasksQuery();
+  const dispatch = useAppDispatch();
+  const isSnackbarOpen = useAppSelector(selectIsSnackbarOpen);
 
   let taskContent: TaskContentTypes = [];
 
   if (isLoading) {
-    taskContent = (
-      <div>
-        <span>Loading...</span>
-      </div>
-    );
+    taskContent = <div>Loading...</div>;
   } else if (isSuccess) {
     taskContent = (
       <div id={styles["task-list"]} className="flex-column-center">
@@ -29,10 +32,8 @@ export const TaskListContainer = (): ReactElement => {
         )}
       </div>
     );
-  } else if (isError) {
-    taskContent = (
-      <div>A problem occured. We were unable to get the tasks.</div>
-    );
+  } else if (isError && !isSnackbarOpen) {
+    dispatch(openSnackbar("An error occurred while fetching tasks."));
   }
 
   return (
