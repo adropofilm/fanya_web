@@ -17,17 +17,15 @@ export const CustomSnackbar = (): ReactElement => {
   };
 
   return (
-    <div>
+    <>
       {isSnackbarOpen && (
         <div className={styles["snackbar"]}>
-          <div>
-            <span className={styles["snackbar-btn"]} onClick={handleClose}>
-              x
-            </span>
-            {snackbarContent}
-          </div>
+          <span className={styles["snackbar-btn"]} onClick={handleClose}>
+            x
+          </span>
+          {snackbarContent}
         </div>
       )}
-    </div>
+    </>
   );
 };

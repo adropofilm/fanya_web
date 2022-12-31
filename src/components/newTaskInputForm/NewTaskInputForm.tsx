@@ -23,6 +23,7 @@ export const NewTaskInputForm = (): ReactElement => {
       if (canSave) {
         await addNewTask(title);
         setTitle("");
+        dispatch(openSnackbar("Task created successfully."));
       }
     } catch (error) {
       !isSnackbarOpen &&
