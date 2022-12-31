@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   closeSnackbar,
@@ -15,6 +15,14 @@ export const CustomSnackbar = (): ReactElement => {
   const handleClose = (): void => {
     dispatch(closeSnackbar());
   };
+
+  useEffect(() => {
+    if (isSnackbarOpen) {
+      setTimeout(() => {
+        dispatch(closeSnackbar());
+      }, 5000);
+    }
+  }, [isSnackbarOpen, dispatch]);
 
   return (
     <>
